@@ -78,6 +78,5 @@ npm start
 # OR build for production
 npm run build
 
-6. Screenshots 📸
-<img width="1854" height="901" alt="image" src="https://github.com/user-attachments/assets/3cc12987-8d17-4a72-af03-1184e003d04d" />
+
 
