@@ -61,13 +61,3 @@ pip install -r requirements.txt
 
 # Run server
 python app.py
-
-# Navigate to frontend folder
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start frontend
-npm start
-
