@@ -1,0 +1,1174 @@
+/* -------------------------------------- */
+/* 1. Global Reset and Variables */
+/* -------------------------------------- */
+
+:root {
+    --color-background-primary: #1e1e2d; /* Deep Navy/Black */
+    --color-background-secondary: #27293d; /* Lighter Dark Card Background */
+    --color-text-light: #f7f7fa; /* White/Off-White */
+    --color-text-muted: #9fa0b7; /* Gray/Muted Text */
+
+    --color-accent-blue: #007bff; /* Primary Accent Blue */
+    --color-accent-purple: #8860e6; /* Header/Logo Purple */
+    
+    --color-kpi-blue: #3952a6; /* Unread Changes Card */
+    --color-kpi-red: #c0392b; /* Critical Updates Card */
+    --color-kpi-green: #2ecc71; /* Last 24 Hours Card */
+
+    --border-radius: 8px;
+    --padding-base: 20px;
+
+    /* New colors based on previous Competitors.tsx styling */
+    --color-delete-bg: #c0392b40; /* Light red/dark theme compliant */
+    --color-delete-text: #e74c3c; 
+    --color-edit-bg: #3c3f58; /* Muted background */
+    --color-fetch-bg: var(--color-accent-blue);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-background-primary);
+    color: var(--color-text-light);
+    line-height: 1.6;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* -------------------------------------- */
+/* 2. Layout and Navigation (App.tsx) */
+/* -------------------------------------- */
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px var(--padding-base);
+    background-color: var(--color-background-secondary);
+    border-bottom: 1px solid #3c3f58; /* Subtle separator */
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-accent-purple);
+}
+
+.logo-icon {
+    margin-right: 10px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--color-text-muted);
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: color 0.2s, background-color 0.2s;
+    display: flex; /* For icon/text alignment */
+    align-items: center;
+}
+
+.nav-link:hover {
+    color: var(--color-text-light);
+}
+
+.nav-link.active {
+    color: var(--color-text-light);
+    background-color: rgba(136, 96, 230, 0.15); /* Light purple background for active link */
+    border-bottom: 2px solid var(--color-accent-purple);
+}
+
+.content-area {
+    padding: 30px var(--padding-base);
+    flex-grow: 1;
+}
+
+/* -------------------------------------- */
+/* 3. Page Headers and Utilities */
+/* -------------------------------------- */
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.page-subtitle {
+    color: var(--color-text-muted);
+    margin-bottom: 30px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+/* Updated General Primary Button Style */
+.btn-primary { 
+    background-color: var(--color-accent-blue);
+    color: var(--color-text-light);
+    border: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    font-size: 0.95em;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+/* Search Bar */
+.search-bar {
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 30px;
+    border: 1px solid #3c3f58;
+    border-radius: var(--border-radius);
+    background-color: var(--color-background-secondary);
+    color: var(--color-text-light);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* -------------------------------------- */
+/* 4. Card Base Styles */
+/* -------------------------------------- */
+
+.kpi-card, .activity-card, .insight-card, .competitor-card-management, .settings-section-card {
+    background-color: var(--color-background-secondary);
+    padding: var(--padding-base);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px; /* Increased margin for better separation */
+}
+
+/* -------------------------------------- */
+/* 5. Dashboard Specifics (Unchanged) */
+/* -------------------------------------- */
+
+/* KPI Card Grid */
+.kpi-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    color: var(--color-text-light);
+    background-color: #33334f; /* A neutral dark base */
+    border-left: 5px solid transparent;
+}
+
+.kpi-card.kpi-blue { border-left-color: var(--color-kpi-blue); }
+.kpi-card.kpi-red { border-left-color: var(--color-kpi-red); }
+.kpi-card.kpi-green { border-left-color: var(--color-kpi-green); }
+
+.kpi-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.kpi-content .count {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Filters */
+.filters-section {
+    background-color: var(--color-background-secondary);
+    padding: var(--padding-base);
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+}
+
+.filters-title {
+    margin-bottom: 15px;
+    color: var(--color-text-light);
+}
+
+.filter-dropdowns {
+    display: flex;
+    gap: 20px;
+}
+
+.filter-select {
+    padding: 10px;
+    background-color: var(--color-background-primary);
+    color: var(--color-text-light);
+    border: 1px solid #3c3f58;
+    border-radius: 4px;
+    flex-grow: 1;
+}
+
+/* Activity Feed Card */
+.activity-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-card .icon-company-date {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.activity-card .icon { margin-right: 8px; font-size: 1.1rem; }
+.activity-card .company-name { font-weight: bold; margin-right: 10px; }
+
+.activity-card .title {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: var(--color-accent-blue);
+}
+
+.activity-card .summary {
+    color: var(--color-text-muted);
+    margin-bottom: 10px;
+}
+
+.tags-and-source {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Tags (Critical, Product Launch) */
+.tag {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.tag-critical { background-color: #c0392b; color: white; }
+.tag-product-launch { background-color: #1abc9c; color: white; }
+.tag-pricing-change { background-color: #f1c40f; color: #333; }
+.tag-high { background-color: #e74c3c; color: white; }
+/* Add more tags for all types used */
+
+.view-source {
+    margin-left: auto;
+    color: var(--color-accent-blue);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+/* -------------------------------------- */
+/* 6. Competitors Page Specifics (UPDATED) */
+/* -------------------------------------- */
+
+.competitors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.competitor-card-management {
+    /* Base card styling is handled by .card-base */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #3c3f58;
+}
+
+.competitor-card-management:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.card-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.competitor-icon {
+    width: 45px;
+    height: 45px;
+    background-color: var(--color-accent-purple);
+    color: var(--color-text-light);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.competitor-name {
+    margin: 0 0 5px 0;
+    font-size: 1.15em;
+    color: var(--color-text-light);
+}
+
+.competitor-description {
+    font-size: 0.85em;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.tag-saas {
+    background-color: rgba(0, 123, 255, 0.15); /* Light blue background */
+    color: var(--color-accent-blue);
+    border: 1px solid var(--color-accent-blue);
+    padding: 3px 8px;
+    margin-top: 5px;
+    border-radius: 4px;
+    font-size: 0.7em;
+    font-weight: 600;
+}
+
+.fetch-status-message {
+    font-size: 0.8em;
+    color: var(--color-text-muted);
+    margin: 10px 0 15px 0;
+    min-height: 15px; 
+}
+
+.card-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #3c3f58;
+    margin-bottom: 10px;
+}
+
+.card-links a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: color 0.2s;
+}
+
+.card-links a:hover {
+    color: var(--color-accent-blue);
+    text-decoration: underline;
+}
+
+/* Action Buttons (Fetch, Edit, Delete) */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: auto; 
+}
+
+.btn-edit,
+.btn-delete,
+.btn-fetch {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background-color 0.2s;
+    font-weight: 600;
+}
+
+.btn-fetch {
+    background-color: var(--color-fetch-bg);
+    color: var(--color-text-light);
+}
+
+.btn-fetch:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: var(--color-delete-bg);
+    color: var(--color-delete-text);
+}
+
+.btn-delete:hover:not(:disabled) {
+    background-color: #c0392b60;
+}
+
+.btn-edit {
+    background-color: var(--color-edit-bg);
+    color: var(--color-text-light);
+}
+
+.btn-edit:hover:not(:disabled) {
+    background-color: #4a4d6b;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* -------------------------------------- */
+/* 7. Insights Page Specifics (Unchanged) */
+/* -------------------------------------- */
+
+.insights-feed {
+    margin-top: 20px;
+}
+
+.insight-card {
+    /* Base card styling is handled by .card-base */
+    border-left: 5px solid var(--color-accent-purple); /* Highlight */
+}
+
+.insight-card .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.insight-card .title {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--color-text-light);
+}
+
+.insight-card .summary {
+    color: var(--color-text-muted);
+    margin-bottom: 15px;
+}
+
+.insight-card .actions button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.btn-actioned { 
+    background-color: var(--color-accent-blue); 
+    color: white; 
+    margin-right: 10px;
+}
+.btn-notes { 
+    background-color: #3c3f58; 
+    color: var(--color-text-light); 
+}
+
+/* Tag colors for Insights */
+.tag-trend { background-color: #2980b9; color: white; }
+.tag-threat { background-color: #e74c3c; color: white; }
+.tag-recommendation { background-color: #f39c12; color: #333; }
+/* Add priority tag styles here: high priority, medium priority */
+
+/* -------------------------------------- */
+/* 8. Settings Page Specifics (Unchanged) */
+/* -------------------------------------- */
+
+.settings-section-card {
+    margin-top: 20px;
+}
+
+.settings-section-card h2 {
+    color: var(--color-accent-purple);
+    font-size: 1.5rem;
+    border-bottom: 1px solid #3c3f58;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #3c3f5850;
+}
+
+.setting-label {
+    color: var(--color-text-muted);
+}
+
+.setting-value {
+    color: var(--color-text-light);
+}
+
+.status-enabled {
+    background-color: var(--color-kpi-green);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* -------------------------------------- */
+/* 9. MODAL STYLING (NEW SECTION) */
+/* -------------------------------------- */
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--color-background-secondary);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 550px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+    border: 1px solid #3c3f58;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #3c3f58;
+    padding-bottom: 15px;
+}
+
+.modal-header h2 {
+    font-size: 1.5em;
+    margin: 0;
+    color: var(--color-text-light);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--color-text-muted);
+}
+
+.close-btn:hover {
+    color: var(--color-text-light);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    font-size: 0.9em;
+}
+
+.form-group input, 
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    border: 1px solid #3c3f58;
+    border-radius: var(--border-radius);
+    font-size: 1em;
+    background-color: var(--color-background-primary);
+    color: var(--color-text-light);
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+    border-color: var(--color-accent-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #3c3f58;
+}
+
+.btn-secondary {
+    background-color: #3c3f58;
+    color: var(--color-text-light);
+    padding: 10px 15px;
+    border: 1px solid #4a4d6b;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #4a4d6b;
+}
+
+.status-message {
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+}
+
+.status-message.success {
+    background-color: rgba(46, 204, 113, 0.2); /* Light green background */
+    color: var(--color-kpi-green);
+    border: 1px solid var(--color-kpi-green);
+}
+
+.status-message.error {
+    background-color: rgba(192, 57, 43, 0.2); /* Light red background */
+    color: var(--color-kpi-red);
+    border: 1px solid var(--color-kpi-red);
+}
+
+/* ==================================== */
+/* 1. Dashboard General Layout Adjustments */
+/* ==================================== */
+
+/* Ensure the top row of details in the activity card aligns the badge */
+.activity-card .icon-company-date {
+    display: flex;
+    align-items: center; /* Vertically align all items */
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.activity-card .company-name {
+    /* Style for the competitor name */
+    font-weight: 600;
+    color: var(--color-text-light); /* Make the name stand out */
+    margin-right: 15px;
+}
+
+.activity-card .time-ago {
+    /* Style for the timestamp */
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+/* ==================================== */
+/* 2. Severity Badge Styling */
+/* ==================================== */
+
+.severity-badge {
+    /* Base badge styling */
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem; /* Slightly smaller than main text */
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-right: 15px;
+    min-width: 90px; /* Ensure badges have a consistent width */
+    text-align: center;
+    /* Use a fixed, dark background color for badge container */
+    background-color: var(--color-background-secondary-dark); 
+}
+
+/* --- Severity Specific Colors --- */
+
+/* Critical: Red color for high visibility */
+.severity-critical {
+    background-color: var(--color-kpi-red); /* Assuming you define --color-kpi-red (e.g., #e74c3c) */
+    color: var(--color-text-light);
+}
+
+/* Medium: Yellow/Orange for moderate importance */
+.severity-medium {
+    background-color: #f39c12; /* Orange/Gold */
+    color: var(--color-background-primary); /* Dark text on bright background */
+}
+
+/* Normal: Muted, dark background for low importance */
+.severity-normal {
+    background-color: #3c3f58; /* A subtle dark color */
+    color: var(--color-text-muted);
+}
+
+/* Error: Distinctive color for issues */
+.severity-error {
+    background-color: #7f8c8d; /* Gray for error */
+    color: var(--color-text-light);
+}
+
+/* ==================================== */
+/* 3. Recommended Dark Theme Variables (If not already defined) */
+/* ==================================== */
+
+:root {
+    /* Color Palette for Dark Theme */
+    --color-background-primary: #1e1e2d; /* Main page background */
+    --color-background-secondary: #27293d; /* Card background */
+    --color-background-secondary-dark: #1a1c2a; /* Badge container background */
+
+    --color-text-light: #ffffff;
+    --color-text-muted: #a0a0a0;
+
+    /* KPI Colors */
+    --color-kpi-blue: #3498db;
+    --color-kpi-red: #e74c3c; /* Critical */
+    --color-kpi-green: #2ecc71;
+}
+
+/* Ensure the main activity card uses the secondary background */
+.activity-card {
+    background-color: var(--color-background-secondary);
+    /* ... other styles for padding, border-radius ... */
+}
+
+/* ==================================== */
+/* Filters Section Styling */
+/* ==================================== */
+
+.filters-section {
+    background-color: var(--color-background-secondary); /* Darker background for the filter bar */
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--color-background-border); /* Subtle border */
+}
+
+.filters-title {
+    font-size: 1.1rem;
+    color: var(--color-text-light);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.filter-dropdowns {
+    display: flex;
+    gap: 20px; /* Space between dropdowns */
+    align-items: center;
+}
+
+/* ==================================== */
+/* Select Dropdown Styling */
+/* ==================================== */
+
+.filter-select {
+    /* Base styles for the select box */
+    padding: 10px 15px;
+    border: 1px solid #444; /* Darker border */
+    border-radius: 6px;
+    
+    /* Colors for dark theme */
+    background-color: var(--color-background-primary); /* Use a slightly darker background */
+    color: var(--color-text-light);
+    font-size: 1rem;
+    font-weight: 500;
+    
+    /* Remove default appearance */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    /* Add a custom arrow (using a background image or Unicode character) */
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16' fill='%23a0a0a0'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 35px; /* Make space for the custom arrow */
+    
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.filter-select:hover {
+    border-color: var(--color-kpi-blue); /* Highlight on hover */
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--color-kpi-blue);
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Blue glow */
+}
+
+/* Style for the dropdown options (usually determined by the browser) */
+.filter-select option {
+    background-color: var(--color-background-primary);
+    color: var(--color-text-light);
+}
+
+/* ==================================== */
+/* Recommended Variables (if not defined elsewhere) */
+/* ==================================== */
+
+:root {
+    --color-background-primary: #1e1e2d; /* Main background */
+    --color-background-secondary: #27293d; /* Card/Filter background */
+    --color-background-border: #3c3f58; /* Border color */
+    
+    --color-text-light: #ffffff;
+    --color-kpi-blue: #3498db;
+}
+
+/* ==================================== */
+/* 1. Global Variables (Ensure these are defined in your main stylesheet) */
+/* ==================================== */
+
+:root {
+    --color-background-primary: #1e1e2d; /* Main page background */
+    --color-background-secondary: #27293d; /* Card background (for sections) */
+    --color-background-border: #3c3f58; /* Subtle border color */
+    
+    --color-text-light: #ffffff;
+    --color-text-muted: #a0a0a0;
+
+    --color-kpi-red: #e74c3c;
+    --color-kpi-green: #2ecc71;
+}
+
+/* ==================================== */
+/* 2. Page & Header Styling */
+/* ==================================== */
+
+.page-settings {
+    padding: 20px;
+}
+
+.page-settings h1 {
+    color: var(--color-text-light);
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+}
+
+.page-settings > p { /* Target the header sub-text */
+    color: var(--color-text-muted);
+    margin-bottom: 30px;
+}
+
+/* ==================================== */
+/* 3. Section Card Styling */
+/* ==================================== */
+
+.settings-section-card {
+    background-color: var(--color-background-secondary); 
+    padding: 20px 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.settings-section-card h2 {
+    color: var(--color-text-light);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--color-background-border);
+    padding-bottom: 10px;
+}
+
+/* ==================================== */
+/* 4. Individual Setting Item Layout */
+/* ==================================== */
+
+.setting-item {
+    display: flex;
+    justify-content: space-between; /* Align label left, value/select right */
+    align-items: center;
+    padding: 10px 0;
+}
+
+.setting-label {
+    color: var(--color-text-muted);
+    font-weight: 400;
+}
+
+/* ==================================== */
+/* 5. Account Section Specifics */
+/* ==================================== */
+
+.setting-item .setting-value {
+    color: var(--color-text-light);
+    font-weight: 500;
+    margin: 0; /* Override default paragraph margins */
+}
+
+.btn-signout {
+    /* Style the Sign Out button */
+    background-color: var(--color-background-primary); 
+    color: var(--color-text-light);
+    border: 1px solid var(--color-text-muted);
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 15px; /* Separate from email info */
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-signout:hover {
+    background-color: var(--color-background-border);
+    border-color: var(--color-text-light);
+}
+
+/* ==================================== */
+/* 6. Digest Schedule Section Specifics */
+/* ==================================== */
+
+/* Status Badge */
+.setting-item.notification-status {
+    margin-bottom: 10px;
+}
+
+.status-enabled {
+    /* Green badge for the "Enabled" status */
+    background-color: var(--color-kpi-green);
+    color: var(--color-background-primary); /* Dark text on green background */
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Dropdown/Select Styling (Frequency and Day of Week) */
+.setting-item select {
+    /* Reuses a cleaned-up, dark-themed select style */
+    padding: 8px 12px;
+    border: 1px solid var(--color-background-border); 
+    border-radius: 4px;
+    background-color: var(--color-background-primary); 
+    color: var(--color-text-light);
+    font-size: 1rem;
+    cursor: pointer;
+    width: 120px; /* Constrain width to match screenshot look */
+    text-align: right;
+    
+    /* Customizing the select appearance */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    /* Custom arrow using SVG background image */
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='14' height='14' fill='%23a0a0a0'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 25px; /* Make space for the arrow */
+}
+
+.setting-item select:disabled {
+    opacity: 0.8;
+    cursor: default;
+    /* Optional: Remove the arrow for disabled state if desired */
+    /* background-image: none; */
+}
+
+/* --- Settings Page Layout and General Styles --- */
+
+.page-settings {
+    padding: 30px;
+    color: var(--color-text-light); /* Assuming a dark background theme */
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.page-settings h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.page-settings p {
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+/* --- Section Card Styling --- */
+
+.settings-section-card {
+    background-color: #1a1a2e; /* Dark background for the card */
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.settings-section-card h2 {
+    font-size: 1.5em;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: #e9e9f2;
+}
+
+/* --- General Setting Item Layout --- */
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #2a2a44;
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.setting-label {
+    font-weight: 500;
+    color: #ccc;
+}
+
+.setting-value {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* --- Sign Out Button --- */
+
+.btn-sign-out {
+    background: none;
+    border: 1px solid #c0392b;
+    color: #c0392b;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 15px;
+    transition: background-color 0.2s;
+}
+
+.btn-sign-out:hover {
+    background-color: #c0392b22;
+}
+
+/* --- Notification Status Badge --- */
+
+.notification-status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 700;
+}
+
+.notification-status-enabled {
+    background-color: #2ecc7133; /* Light green background */
+    color: #2ecc71; /* Green text */
+}
+
+/* --- Dropdown Selects (Frequency & Day of Week) --- */
+
+.schedule-select {
+    padding: 8px 12px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #22223a; /* Darker input background */
+    color: #e9e9f2;
+    cursor: pointer;
+    appearance: none; /* Remove default arrow in some browsers */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23ccc" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: 50%;
+    padding-right: 30px; /* Space for the custom arrow */
+}
+
+.schedule-select:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* --- Send Now Button and Status (from previous step) --- */
+
+.btn-send-now {
+    background-color: #3498db; 
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-send-now:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.btn-send-now:disabled {
+    background-color: #5d6d7e; 
+    cursor: not-allowed;
+}
+
+.send-now-row {
+    border-top: 1px solid #2a2a44;
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Status Messages */
+.send-status-message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+.status-sending {
+    background-color: #f39c1233;
+    color: #f39c12;
+    border: 1px solid #f39c12;
+}
+
+.status-success {
+    background-color: #2ecc7133;
+    color: #2ecc71;
+    border: 1px solid #2ecc71;
+}
+
+.status-error {
+    background-color: #e74c3c33;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+}
+
+/* Keyframe for modal entry animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
