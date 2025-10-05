@@ -56,7 +56,6 @@ Startups often struggle to keep up with competitors’ product launches, feature
 
 ## 5. How to Run ▶️
 
-### Backend
 ```bash
 # Navigate to backend folder
 cd backend
