@@ -1,5 +1,10 @@
 # 🚀 CompeteTracker
 
+[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=white)](https://reactjs.org/)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Issues](https://img.shields.io/github/issues/yourusername/CompeteTracker)](https://github.com/yourusername/CompeteTracker/issues)
+
 ## 1. Overview
 **CompeteTracker** is a **Competitive Intelligence Tracker for Startups**.  
 Startups often struggle to keep up with competitors’ product launches, feature updates, and marketing campaigns. **CompeteTracker** helps by continuously monitoring competitor activity, summarizing key changes, and delivering actionable insights in a digestible format.  
@@ -61,3 +66,15 @@ pip install -r requirements.txt
 
 # Run server
 python app.py
+
+# Navigate to frontend folder
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm start
+
+# OR build for production
+npm run build
