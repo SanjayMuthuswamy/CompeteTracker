@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=white)](https://reactjs.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-[![Issues](https://img.shields.io/github/issues/yourusername/CompeteTracker)](https://github.com/yourusername/CompeteTracker/issues)
+
 
 ## 1. Overview
 **CompeteTracker** is a **Competitive Intelligence Tracker for Startups**.  
