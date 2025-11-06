@@ -21,9 +21,9 @@ Startups often struggle to keep up with competitors’ product launches, feature
 ---
 
 ## 3. Tools Used 🛠️
-- **Backend:** Python, Flask/FastAPI, BeautifulSoup, Newspaper3k, Requests  
+- **Backend:** Python, FastAPI, BeautifulSoup, Newspaper3k, Requests  
 - **Frontend:** React.js, TailwindCSS  
-- **Database:** SQLite / PostgreSQL  
+- **Database:** SQLite3  
 - **Other Tools:** Cron jobs (for scheduling scraping), Axios (frontend API calls)  
 
 ---
